@@ -1,0 +1,26 @@
+html, body, .scuffle 
+{
+    height: 100%;
+    color: #fff;
+    background: #111;
+}
+
+.scuffle {
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.scuffleForm {
+    margin: 400px;
+}
+
+.gameText {
+    font-size: 200px;
+}
