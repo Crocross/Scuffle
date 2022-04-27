@@ -50,10 +50,10 @@ function StartScuffle() {
 }
 
 function ScuffleGuess() {
-    let scuffleGuess = $('#ScuffleGuess').val().toUpperCase();
+    let scuffleGuess = $('#ScuffleGuess').val().toUpperCase().trim();
     let scuffleGuessLength = scuffleGuess.length;
     if(scuffleGuessLength == scuffleWordLength) {
-        let guess = scuffleGuess.toUpperCase();
+        let guess = scuffleGuess.toUpperCase().trim();
         $('#ScuffleGuess').val("");
         $('#GuessedWords').prepend('<li>' + guess + '</li>');
         guessedWords.push(guess);
