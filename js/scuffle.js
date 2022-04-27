@@ -1,6 +1,7 @@
 let scuffleWord;
 let scuffleWordLength;
 let incorrectLetters = [];
+let guessedWords = [];
 
 var Scuffle = (function () {
     Initialize();
@@ -18,15 +19,20 @@ function Initialize() {
     });
     
     $('#newScuffle').on('click', function(e) {
-        e.preventDefault();
+        e.preventDefault(); // cancel the actual submit
         NewGame();
+    });
+    
+    $('#copyForDiscord').on('click', function(e) {
+        e.preventDefault(); // cancel the actual submit
+        CopyForDiscord();
     });
     
     ShowHideWord();
 }
 
 function StartScuffle() {
-        scuffleWord = $('#ScuffleWord').val();
+        scuffleWord = $('#ScuffleWord').val().toUpperCase();
         scuffleWordLength = scuffleWord.length;
 
         if(scuffleWordLength > 0 && scuffleWordLength < 11) {
@@ -44,12 +50,13 @@ function StartScuffle() {
 }
 
 function ScuffleGuess() {
-    let scuffleGuess = $('#ScuffleGuess').val();
+    let scuffleGuess = $('#ScuffleGuess').val().toUpperCase();
     let scuffleGuessLength = scuffleGuess.length;
-    
     if(scuffleGuessLength == scuffleWordLength) {
+        let guess = scuffleGuess.toUpperCase();
         $('#ScuffleGuess').val("");
-        $('#GuessedWords').prepend('<li>' + scuffleGuess.toUpperCase() + '</li>');
+        $('#GuessedWords').prepend('<li>' + guess + '</li>');
+        guessedWords.push(guess);
         oldSolution = $('#gameText').text();
         oldSolution = oldSolution.replace(/\s+/g, "");
         scuffleSolution = "";
@@ -70,17 +77,7 @@ function ScuffleGuess() {
             }
         }
         incorrectLetters.sort();
-        incorrectLettersString = "";
-        for(let i = 0; i < incorrectLetters.length; i++) {
-            if((i + 1) % 5 == 0) {
-                incorrectLettersString += incorrectLetters[i] + "<br>";
-            }
-            else {
-                incorrectLettersString += incorrectLetters[i] + " ";
-            }
-        }
-        incorrectLettersString.trim();
-        $('#IncorrectLetters').html(incorrectLettersString);
+        $('#IncorrectLetters').html(IncorrectLettersToString("<br>"));
         scuffleSolution.trim();
         $('#gameText').text(scuffleSolution.toUpperCase());
     }
@@ -93,6 +90,7 @@ function NewGame() {
     $('#ScuffleGuess').val("");
     $('#IncorrectLetters').text("");
     $('#GuessedWords').empty();
+    guessedWords = [];
     incorrectLetters = [];
 }
 
@@ -113,4 +111,30 @@ function ShowHideWord() {
             }
         });
     });
+}
+
+function IncorrectLettersToString(separator) {
+    let incorrectLettersString = "";
+    for(let i = 0; i < incorrectLetters.length; i++) {
+        if((i + 1) % 5 == 0) {
+            incorrectLettersString += incorrectLetters[i] + separator;
+        }
+        else {
+            incorrectLettersString += incorrectLetters[i] + " ";
+        }
+    }
+    return incorrectLettersString.trim();
+}
+
+function CopyForDiscord() {
+    let discordCopy = "```Scuffle... but not really!\n";
+    discordCopy += $('#gameText').text() + "\n";
+    discordCopy += "\nGuesses:\n";
+    for(let i = guessedWords.length; i > 0; i--) {
+        discordCopy += i + ". " + guessedWords[i-1] + "\n";
+    }
+    discordCopy += "\nIncorrect Letters:\n";
+    discordCopy += IncorrectLettersToString("\n");
+    discordCopy += "```";
+    navigator.clipboard.writeText(discordCopy);
 }
