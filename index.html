@@ -42,14 +42,16 @@
                     </div>
                 </div>
                 <div class="container position-absolute">
-                        <div class="row">
-                            <div class="col-6">Guesses</div>
-                            <div class="col-6">Incorrect letters</div>
+                    <div class="d-flex">
+                        <div class="flex-column">
+                            <div>Guesses</div>
+                            <div><ol reversed id="GuessedWords"></ol></div>
                         </div>
-                        <div class="row">
-                            <div class="col-6"><ol reversed id="GuessedWords"></ol></div>
-                            <div class="col-6"><p id="IncorrectLetters" class="col"></p></div>
+                        <div class="flex-column px-5">
+                            <div>Incorrect letters</div>
+                            <div><p id="IncorrectLetters" class="col"></p></div>
                         </div>
+                    </div>
                 </div>
             </form>
         </div>
