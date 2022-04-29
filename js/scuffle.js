@@ -2,6 +2,7 @@ let scuffleWord;
 let scuffleWordLength;
 let incorrectLetters = [];
 let guessedWords = [];
+let solved;
 
 var Scuffle = (function () {
     Initialize();
@@ -35,7 +36,7 @@ function StartScuffle() {
         scuffleWord = $('#ScuffleWord').val().toUpperCase();
         scuffleWordLength = scuffleWord.length;
 
-        if(scuffleWordLength > 0 && scuffleWordLength < 11) {
+        if(scuffleWordLength > 0) {
             $('#ChoosingWord').toggleClass('d-none');
             $('#GuessingWord').toggleClass('d-none');
             $('#GuessingWord').addClass('flex-fill scuffleForm');
@@ -46,6 +47,7 @@ function StartScuffle() {
             }
             scuffleSolution.trim();
             $('#gameText').text(scuffleSolution);
+            ResizeGameText();
         }
 }
 
@@ -53,6 +55,7 @@ function ScuffleGuess() {
     let scuffleGuess = $('#ScuffleGuess').val().toUpperCase().trim();
     let scuffleGuessLength = scuffleGuess.length;
     if(scuffleGuessLength == scuffleWordLength) {
+        solved = true;
         let guess = scuffleGuess.toUpperCase().trim();
         $('#ScuffleGuess').val("");
         $('#GuessedWords').prepend('<li>' + guess + '</li>');
@@ -74,24 +77,39 @@ function ScuffleGuess() {
                 if(!scuffleWord.includes(scuffleGuess[i]) && !incorrectLetters.includes(scuffleGuess[i].toUpperCase())){
                     incorrectLetters.push(scuffleGuess[i].toUpperCase());
                 }
+                solved = false;
             }
         }
         incorrectLetters.sort();
         $('#IncorrectLetters').html(IncorrectLettersToString("<br>"));
         scuffleSolution.trim();
         $('#gameText').text(scuffleSolution.toUpperCase());
+        if(solved) {
+            $('#newScuffle').html("New Game");
+        }
+        ResizeGameText();
     }
 }
 
 function NewGame() {
-    $('#ChoosingWord').toggleClass('d-none');
-    $('#GuessingWord').toggleClass('d-none');
-    $('#ScuffleWord').val("");
-    $('#ScuffleGuess').val("");
-    $('#IncorrectLetters').text("");
-    $('#GuessedWords').empty();
-    guessedWords = [];
-    incorrectLetters = [];
+    if(solved) {
+        $('#ChoosingWord').toggleClass('d-none');
+        $('#GuessingWord').toggleClass('d-none');
+        $('#ScuffleWord').val("");
+        $('#ScuffleGuess').val("");
+        $('#IncorrectLetters').text("");
+        $('#GuessedWords').empty();
+        guessedWords = [];
+        incorrectLetters = [];
+        $('#newScuffle').html("Reveal Word");
+        solved = false;
+    }
+    else {
+        $('#gameText').text(scuffleWord.split("").join(" "));
+        $('#newScuffle').html("New Game");
+        solved = true;
+        ResizeGameText();
+    }
 }
 
 function ShowHideWord() {
@@ -137,4 +155,13 @@ function CopyForDiscord() {
     discordCopy += IncorrectLettersToString("\n");
     discordCopy += "```";
     navigator.clipboard.writeText(discordCopy);
+}
+
+function ResizeGameText() {
+    var fontsize = $('#gameText').css('font-size');
+
+    if($('#gameText').height() > "300") {
+        $('#gameText').css('fontSize', parseFloat(fontsize) - 1);
+        ResizeGameText();
+    }
 }
