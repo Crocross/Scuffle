@@ -22,20 +22,20 @@
                 </div>
                 <button class="btn btn-primary" id="startScuffle">Start Scuffle!</button>
             </form>
-            <form class="d-none" id="GuessingWord">
+            <form id="GuessingWord" class="d-none">
                 <div class="d-flex flex-column">
                     <div class="mb-3">
-                        <label for="ScuffleGuess" class="gameText text-muted form-label text-center w-100" id="gameText"></label>
-                        <input type="text" class="form-control form-control-lg" id="ScuffleGuess" name="ScuffleGuess">
+                        <label for="ScuffleGuess" id="gameText" class="text-muted form-label text-center w-100" style="font-size: 200px;"></label>
+                        <input type="text" id="ScuffleGuess" class="form-control form-control-lg" name="ScuffleGuess">
                     </div>
                     <div class="mb-3">
                         <div class="d-flex">
-                            <button class="btn btn-primary" id="guessScuffle">Submit guess</button>
+                            <button id="guessScuffle" class="btn btn-primary">Submit guess</button>
                             <div class="ms-auto">
-                                <button class="btn btn-primary" id="copyForDiscord">Copy</button>
+                                <button id="copyForDiscord" class="btn btn-primary">Copy</button>
                             </div>
                             <div class="ms-auto">
-                                <button class="btn btn-primary" id="newScuffle">New Game</button>
+                                <button id="newScuffle" class="btn btn-primary">Reveal Word</button>
                             </div>
                         </div>
                         
@@ -47,8 +47,8 @@
                             <div class="col-6">Incorrect letters</div>
                         </div>
                         <div class="row">
-                            <div class="col-6"><ol reversed id="GuessedWords" class=""></ol></div>
-                            <div class="col-6"><p class="col" id="IncorrectLetters"></p></div>
+                            <div class="col-6"><ol reversed id="GuessedWords"></ol></div>
+                            <div class="col-6"><p id="IncorrectLetters" class="col"></p></div>
                         </div>
                 </div>
             </form>
